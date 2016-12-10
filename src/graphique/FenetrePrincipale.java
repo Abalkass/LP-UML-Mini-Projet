@@ -91,7 +91,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		
 		
 		if (e.getSource() == btAchat){
-			new FenetreAchat(leControleurProduit.getLesProduits());
+			//new FenetreAchat(leControleurProduit.getLesProduits());
+			//new FenetreAchat();
 		}
 		if (e.getSource() == btVente)
 			new FenetreVente(leControleurProduit.getLesProduits());
