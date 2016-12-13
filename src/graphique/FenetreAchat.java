@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.*;
 
-import application.ControleurProduit;
+import application.ControleurAchat;
 import metier.I_Produit;
 import metier.Produit;
 import tools.ProduitRenderer;
@@ -40,7 +40,7 @@ public class FenetreAchat extends JFrame implements ActionListener {
 		combo.setPreferredSize(new Dimension(100, 20));
 		contentPane.add(new JLabel("Produit"));
 		contentPane.add(combo);
-		contentPane.add(new JLabel("Quantit� achet�e"));
+		contentPane.add(new JLabel("Quantité achetée"));
 		contentPane.add(txtQuantite);
 		contentPane.add(btAchat);
 
@@ -50,7 +50,7 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btAchat){
-			ControleurProduit leControleur = new ControleurProduit();
+			ControleurAchat leControleur = new ControleurAchat();
 			leControleur.achatProduit(this, combo, txtQuantite.getText());
 			}
 		}

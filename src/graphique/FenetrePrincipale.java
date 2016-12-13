@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
+import application.ControleurAchat;
 import application.ControleurPrincipal;
 import application.ControleurProduit;
 import application.ControleurStock;
@@ -25,7 +26,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btAchat;
 	private JButton btVente;
 	private JButton btQuitter;
-	private static ControleurProduit leControleurProduit;
+	private static ControleurAchat leControleurAchat;
 	private static ControleurStock leControleurStock;
 
 	
@@ -43,7 +44,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
-		btAfficher = new JButton("Quantit�s en stock");
+		btAfficher = new JButton("Quantités en stock");
 		btNouveauProduit = new JButton("Nouveau Produit");
 		btSupprimerProduit = new JButton("Supprimer Produit");
 //		btNouvelleCategorie = new JButton("Nouvelle Categorie");
@@ -82,11 +83,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 
 		/* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
-   		Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
+   		Quand l'application fonctionnera, il faudra bien sûr récupérer les noms des produits dans le Catalogue */
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
 		
 		
-		/* M�me chose pour tabCategories (partie 4) */ 		
+		/* Même chose pour tabCategories (partie 4) */ 		
 		//String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		
@@ -95,7 +96,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 			//new FenetreAchat();
 		}
 		if (e.getSource() == btVente)
-			new FenetreVente(leControleurProduit.getLesProduits());
+			new FenetreVente(leControleurAchat.getLesProduits());
 		
 		
 		
@@ -120,7 +121,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		
 	public static void main(String[] args) {
 		new ControleurPrincipal();
-		leControleurProduit = new ControleurProduit();
+		leControleurAchat = new ControleurAchat();
 		leControleurStock = new ControleurStock();
 		new FenetrePrincipale();
 	}
