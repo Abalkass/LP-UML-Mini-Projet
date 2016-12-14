@@ -10,13 +10,13 @@ public class ControleurPrincipal {
 	
 	public ControleurPrincipal(){
 		catalogue = new Catalogue();
-		/*catalogue.addProduit("Mars", 4.51651, 50);
+		catalogue.addProduit("Mars", 4.51651, 50);
 		catalogue.addProduit("Raider", 6.78, 50);
 		catalogue.addProduit("Twix", 4.99, 50);
 		catalogue.addProduit("Treets", 6.99, 50);
 		catalogue.addProduit("M&M's", 19.99, 50);
 		catalogue.addProduit("Smarties", 12.50, 50);
-		catalogue.addProduit("qshgqsf", 12.50, 50);*/
+		catalogue.addProduit("qshgqsf", 12.50, 50);
 	}
 	
 	public static String[] getNomsProduits() {

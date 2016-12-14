@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import application.ControleurProduit;
+
 public class FenetreSuppressionProduit extends JFrame implements ActionListener {
 
 	private JButton btSupprimer;
@@ -30,6 +32,13 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 
 	public void actionPerformed(ActionEvent e) {
 		this.dispose();
+		if ( ControleurProduit.supprimerProduit((String) combo.getSelectedItem()) ) {
+			JOptionPane.showMessageDialog(this, "Le produit " + combo.getSelectedItem() + " a été bien supprimé.", "Suppression de produit", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Produit supprimé");
+		} else {
+			JOptionPane.showMessageDialog(this, "Erreur sur la suppression d'un produit", "Suppression de produit", JOptionPane.WARNING_MESSAGE);
+			System.out.println("Produit non-supprimé");
+		}
 	}
 
 }

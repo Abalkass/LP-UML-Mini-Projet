@@ -51,7 +51,6 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		this.dispose();
-		//ControleurProduit leControleur = new ControleurProduit();
 		if (e.getSource() == this.btValider) {
 			String nomProduit = txtNom.getText();
 			String prixProduit = txtPrixHT.getText();

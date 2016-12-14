@@ -32,4 +32,13 @@ public class ControleurProduit extends ControleurPrincipal{
 		return false;
 	}
 	
+	public static boolean supprimerProduit(String nomProduitASupprimer) {
+		if (nomProduitASupprimer==null) {
+			System.err.println("Aucun produit sélectionner");
+			return false;
+		} else {
+			return catalogue.removeProduit(nomProduitASupprimer);
+		}
+	}
+	
 }
