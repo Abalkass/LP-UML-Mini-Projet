@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import application.ControleurProduit;
+
 public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
 	private JTextField txtPrixHT;
@@ -22,7 +24,7 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
 		JLabel labNom = new JLabel("Nom produit");
 		JLabel labPrixHT = new JLabel("Prix Hors Taxe");
-		JLabel labQte = new JLabel("Quantit� en stock");
+		JLabel labQte = new JLabel("Quantité en stock");
 //		JLabel labCategorie = new JLabel("Categorie");
 		contentPane.add(labNom);
 		txtNom = new JTextField(15);
@@ -49,6 +51,18 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		this.dispose();
+		//ControleurProduit leControleur = new ControleurProduit();
+		if (e.getSource() == this.btValider) {
+			String nomProduit = txtNom.getText();
+			String prixProduit = txtPrixHT.getText();
+			String qteProduit = txtQte.getText();
+			
+			if (ControleurProduit.ajouterProduit(nomProduit, prixProduit, qteProduit, this)) {
+				System.out.println("Noveau produit ajouté");
+			} else {
+				System.out.println("Produit non-ajouté");
+			}
+		}
 	}
 
 }

@@ -84,8 +84,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 		/* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    		Quand l'application fonctionnera, il faudra bien sûr récupérer les noms des produits dans le Catalogue */
-		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
+		//String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
 		
+		//String[] tabProduits = new String[];
 		
 		/* Même chose pour tabCategories (partie 4) */ 		
 		//String[] tabCategories = new String[] {"Bio", "Luxe" };
@@ -107,7 +108,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
 		if (e.getSource() == btSupprimerProduit)
-			new FenetreSuppressionProduit(tabProduits);
+			new FenetreSuppressionProduit(ControleurPrincipal.getNomsProduits());
 //		if (e.getSource() == btNouvelleCategorie)
 //			new FenetreNouvelleCategorie();
 //		if (e.getSource() == btSupprimerCategorie)
