@@ -121,9 +121,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 		
 	public static void main(String[] args) {
-		new ControleurPrincipal();
+		/*new ControleurPrincipal();
 		leControleurAchat = new ControleurAchat();
-		leControleurStock = new ControleurStock();
+		leControleurStock = new ControleurStock();*/
 		new FenetrePrincipale();
 	}
 
