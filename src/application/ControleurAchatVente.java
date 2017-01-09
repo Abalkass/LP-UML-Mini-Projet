@@ -66,15 +66,4 @@ public class ControleurAchatVente{
 		}*/
 	}
 }
-
-
-
-
-
-
-
-ControleurPrincipal
-
-	afficherFenetreAchat()
-		controleurAchatVente(catlogue)
 	
