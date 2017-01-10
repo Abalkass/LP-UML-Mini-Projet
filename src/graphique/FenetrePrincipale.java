@@ -12,6 +12,7 @@ import application.ControleurAchat;
 import application.ControleurPrincipal;
 import application.ControleurProduit;
 import application.ControleurStock;
+import bd.ConnexionBD;
 import metier.Catalogue;
 import metier.Produit;
 
@@ -121,14 +122,15 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 		
 	public static void main(String[] args) {
-		/*new ControleurPrincipal();
+		new ControleurPrincipal();
 		leControleurAchat = new ControleurAchat();
-		leControleurStock = new ControleurStock();*/
+		leControleurStock = new ControleurStock();
 		new FenetrePrincipale();
 	}
 
 	public void windowClosing(WindowEvent arg0) {
 		System.out.println("Au revoir");
+		ConnexionBD.deconnexion();
 		System.exit(0);
 	}
 	public void windowActivated(WindowEvent arg0) {}

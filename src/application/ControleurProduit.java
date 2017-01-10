@@ -3,6 +3,12 @@ package application;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import bd.ConnexionBD;
+import dao.DAO;
+import dao.ProduitDAO;
+import metier.I_Produit;
+import metier.Produit;
+
 public class ControleurProduit extends ControleurPrincipal{
 	
 	public static boolean ajouterProduit(String nomProduit, String prixProduit, String qteProduit, JFrame maFrame) {
@@ -13,9 +19,13 @@ public class ControleurProduit extends ControleurPrincipal{
 			try {
 				double prix = Double.parseDouble(prixProduit);
 				int qte = Integer.parseInt(qteProduit);
-
+				DAO<I_Produit> produitDao = new ProduitDAO(ConnexionBD.getInstance());
+				I_Produit p = new Produit(nomProduit, prix, qte);
+				
+				catalogue.addProduit(p);
+				
 				JOptionPane.showMessageDialog(maFrame, "Le produit " + nomProduit + " a été bien enregistré.", "Ajout produit", JOptionPane.INFORMATION_MESSAGE);
-				return catalogue.addProduit(nomProduit, prix, qte);
+				return produitDao.create(p);
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(maFrame, "La quantité et le prix doivent être un entier positif.", "Erreur", JOptionPane.WARNING_MESSAGE);
 				System.err.println("La quantité et le prix doivent être un entier positif.");
@@ -26,9 +36,7 @@ public class ControleurProduit extends ControleurPrincipal{
 				System.out.println("nom="+nomProduit);
 			}
 		}
-		
-		
-		
+	
 		return false;
 	}
 	

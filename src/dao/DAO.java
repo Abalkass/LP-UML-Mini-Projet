@@ -1,6 +1,9 @@
 package dao;
 
-import java.sql.Connection;
+import java.sql.*;
+import java.util.ArrayList;
+
+import metier.Produit;
 
 public abstract class DAO<T> {
 	protected Connection connect = null;
@@ -31,10 +34,9 @@ public abstract class DAO<T> {
 	public abstract boolean delete(T obj);
 
 	/**
-	 * Recherche des informations d'un objet à partir de ID
 	 * @param id
-	 * @return T
+	 * @return une liste de T éléments contenu dans la BD
 	 */
-	public abstract T find(int id);	
+	public abstract ArrayList<T> find();
 	
 }
