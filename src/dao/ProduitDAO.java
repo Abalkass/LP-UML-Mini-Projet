@@ -24,7 +24,8 @@ public class ProduitDAO extends DAO<I_Produit> {
 			cst.setString(1, nomProduit);
 			cst.setInt(2, qteStock);
 			cst.setDouble(3, prixHT);
-			return cst.execute();
+			cst.execute();
+			return true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -40,17 +41,13 @@ public class ProduitDAO extends DAO<I_Produit> {
 	}
 
 	@Override
-	public boolean delete(I_Produit obj) {
-		String nomProduit = obj.getNom();
-		int qteStock = obj.getQuantite();
-		double prixHT = obj.getPrixUnitaireHT();
+	public boolean delete(String nomProduit) {
 		
 		try {
-			PreparedStatement pst = connect.prepareStatement("DELETE FROM Produits WHERE nomProduit = ? AND quantiteStock = ? AND prixUnitaireHT = ? ;");
+			PreparedStatement pst = connect.prepareStatement("DELETE FROM Produits WHERE nomProduit = ?");
 			pst.setString(1, nomProduit);
-			pst.setInt(2, qteStock);
-			pst.setDouble(3, prixHT);
-			return pst.execute();
+			pst.execute();
+			return true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -68,7 +65,7 @@ public class ProduitDAO extends DAO<I_Produit> {
 		double prixHT;
 		
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT FROM Produits;");
+			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT FROM Produits");
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				nomProduit = rs.getString(1);
