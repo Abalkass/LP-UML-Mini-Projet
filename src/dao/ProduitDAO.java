@@ -2,15 +2,23 @@ package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import metier.I_Produit;
 import metier.Produit;
 
 public class ProduitDAO extends DAO<I_Produit> {
-
+	
+	private Connection connect;
+	
+	public ProduitDAO() {
+		super();
+		this.connect = null;
+	}
+	
 	public ProduitDAO(Connection connect) {
-		super(connect);
-		// TODO Stub du constructeur généré automatiquement
+		super();
+		this.connect = connect;
 	}
 
 	@Override
@@ -57,8 +65,8 @@ public class ProduitDAO extends DAO<I_Produit> {
 	}
 
 	@Override
-	public ArrayList<I_Produit> find() {
-		ArrayList<I_Produit> listProduits = new ArrayList<I_Produit>();
+	public List<I_Produit> find() {
+		List<I_Produit> listProduits = new ArrayList<I_Produit>();
 		I_Produit p;
 		String nomProduit;
 		int qteStock;

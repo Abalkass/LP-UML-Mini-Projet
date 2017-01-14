@@ -1,15 +1,13 @@
 package dao;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.util.List;
 
 import metier.Produit;
 
 public abstract class DAO<T> {
-	protected Connection connect = null;
 
-	public DAO(Connection connect) {
-		this.connect = connect;
+	public DAO() {
+		// TODO Stub du constructeur généré automatiquement
 	}
 
 	/**
@@ -37,6 +35,6 @@ public abstract class DAO<T> {
 	 * @param id
 	 * @return une liste de T éléments contenu dans la BD
 	 */
-	public abstract ArrayList<T> find();
+	public abstract List<T> find();
 	
 }

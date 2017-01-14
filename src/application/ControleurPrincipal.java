@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import dao.DAO;
 import dao.DAOFactory;
+import dao.DAOFactory_XML;
 import dao.ProduitDAO;
 import metier.Catalogue;
 import metier.I_Produit;
@@ -23,7 +24,11 @@ public class ControleurPrincipal {
 		catalogue.addProduit("Smarties", 12.50, 50);
 		catalogue.addProduit("qshgqsf", 12.50, 50);*/
 		
+		//Ligne à changer pour avoir la BD relationnel
 		produitDao = new DAOFactory().createProduitImplementantDAO();
+		
+		//Ligne à changer pour avoir la BD XML
+		//produitDao = new DAOFactory_XML().createProduitImplementantDAO();
 		
 		catalogue.addProduits(produitDao.find());
 	}
