@@ -29,7 +29,8 @@ public class AdaptateurProduitDAO_XML extends DAO {
 	@Override
 	public boolean delete(String nomT) {
 		// TODO Stub de la méthode généré automatiquement
-		return false;
+		I_Produit p = prod_XML.lire(nomT);
+		return prod_XML.supprimer(p);
 	}
 
 	@Override

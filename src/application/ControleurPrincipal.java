@@ -25,10 +25,10 @@ public class ControleurPrincipal {
 		catalogue.addProduit("qshgqsf", 12.50, 50);*/
 		
 		//Ligne à changer pour avoir la BD relationnel
-		produitDao = new DAOFactory().createProduitImplementantDAO();
+		//produitDao = new DAOFactory().createProduitImplementantDAO();
 		
 		//Ligne à changer pour avoir la BD XML
-		//produitDao = new DAOFactory_XML().createProduitImplementantDAO();
+		produitDao = new DAOFactory_XML().createProduitImplementantDAO();
 		
 		catalogue.addProduits(produitDao.find());
 	}
