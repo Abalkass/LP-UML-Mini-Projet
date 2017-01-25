@@ -12,13 +12,20 @@ import metier.Produit;
 public class Catalogue implements I_Catalogue{
 
 	private ArrayList<I_Produit> lesProduits;
+	private String nomCatalogue;
 
 	public Catalogue() {
 		lesProduits = new ArrayList<I_Produit>();
 	}
-	
+	public String getNomCatalogue() {
+		return nomCatalogue;
+	}
+	public void setNomCatalogue(String nomCatalogue) {
+		this.nomCatalogue = nomCatalogue;
+	}
 
-	
+
+
 	public ArrayList<I_Produit> getLesProduits(){
 		return lesProduits;
 	}
