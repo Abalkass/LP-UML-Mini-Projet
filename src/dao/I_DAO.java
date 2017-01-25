@@ -2,13 +2,7 @@ package dao;
 
 import java.util.List;
 
-import metier.Produit;
-
-public abstract class DAO<T> {
-
-	public DAO() {
-		// TODO Stub du constructeur généré automatiquement
-	}
+public interface I_DAO<T> {
 
 	/**
 	 * Enregistre l'objet obj dans la BD
@@ -22,7 +16,7 @@ public abstract class DAO<T> {
 	 * @param obj
 	 * @return  TRUE ssi l'objet T a été mis à jour
 	 */
-	public abstract boolean update(T obj);
+	public abstract boolean update(String nomT, int qte) throws QuantiteeStock_Exception;
 
 	/**
 	 * Supprime l'objet dont le nom = nomT dans la BD
@@ -36,5 +30,10 @@ public abstract class DAO<T> {
 	 * @return une liste de T éléments contenu dans la BD
 	 */
 	public abstract List<T> find();
+	
+	/**
+	 * Deconnexion de la BD.
+	 */
+	public abstract void deconnexion();
 	
 }

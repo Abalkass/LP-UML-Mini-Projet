@@ -1,29 +1,19 @@
 package application;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import metier.I_Produit;
 
-public class ControleurAchat extends ControleurPrincipal{
+public class ControleurAchatVente extends ControleurPrincipal{
 
-	public ControleurAchat() {
+	public ControleurAchatVente() {
 		super();
 	}
 	
-	public ArrayList<I_Produit> getLesProduits(){
-		return catalogue.getLesProduits();
-	}
-	
-	public void afficherAchatVente(){
-		//new FenetreAchat(catalogue.getNomProduits());
-	}
-	
-	private boolean testEntreeUtilisateur(I_Produit selectedProduit, String txtQte) throws Exception{
+	private static boolean testEntreeUtilisateur(String txtQte) throws Exception{
 		boolean retour;
 		if(txtQte.isEmpty()){
 			throw new Exception("Veuillez entrer une valeur !");
@@ -41,26 +31,28 @@ public class ControleurAchat extends ControleurPrincipal{
 		return retour;
 	}
 	
-	public void achatProduit(JFrame laFrame, JComboBox jcmb, String txtQte){
-		I_Produit selectedProduit = (I_Produit) jcmb.getSelectedItem();
+	public static void achatProduit(JFrame laFrame, JComboBox<String> jcmb, String txtQte){
+		String selectedProduit = (String) jcmb.getSelectedItem();
 		try {
-			if(testEntreeUtilisateur(selectedProduit, txtQte) == true){
+			if(testEntreeUtilisateur(txtQte) == true){
 				int quantitee = Integer.parseInt(txtQte);
-				catalogue.acheterStock(selectedProduit.getNom(), quantitee);
-				throw new Exception("Votre achat de : "+selectedProduit.getNom()+" (x" + quantitee + ")a bien été enregistré.");
+				catalogue.acheterStock(selectedProduit, quantitee);
+				produitDao.update(selectedProduit, +quantitee);
+				throw new Exception("Votre achat de : " + selectedProduit + " (x" + quantitee + ")a bien été enregistré.");
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(laFrame, e.getMessage(), "Information(s) !", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
-	public void venteProduit(JFrame laFrame, JComboBox jcmb, String txtQte){
-		I_Produit selectedProduit = (I_Produit) jcmb.getSelectedItem();
+	public static void venteProduit(JFrame laFrame, JComboBox<String> jcmb, String txtQte){
+		String selectedProduit = (String) jcmb.getSelectedItem();
 		try {
-			if(testEntreeUtilisateur(selectedProduit, txtQte) == true){
+			if(testEntreeUtilisateur(txtQte) == true){
 				int quantitee = Integer.parseInt(txtQte);
-				catalogue.vendreStock(selectedProduit.getNom(), quantitee);
-				throw new Exception("Votre vente de : "+selectedProduit.getNom()+" (x" + quantitee + ")a bien été enregistré.");
+				catalogue.vendreStock(selectedProduit, quantitee);
+				produitDao.update(selectedProduit, -quantitee);
+				throw new Exception("Votre vente de : "+selectedProduit+" (x" + quantitee + ")a bien été enregistré.");
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(laFrame, e.getMessage(), "Information(s) !", JOptionPane.INFORMATION_MESSAGE);

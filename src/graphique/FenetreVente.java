@@ -2,20 +2,17 @@ package graphique;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Pattern;
 
 import javax.swing.*;
 
 import application.ControleurAchatVente;
-import application.ControleurProduit;
-import metier.I_Produit;
-import metier.Produit;
-import tools.ProduitRenderer;
 
 public class FenetreVente extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6509810633838914324L;
 	private JButton btVente;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
@@ -38,7 +35,7 @@ public class FenetreVente extends JFrame implements ActionListener {
 		combo.setPreferredSize(new Dimension(100, 20));
 		contentPane.add(new JLabel("Produit"));
 		contentPane.add(combo);
-		contentPane.add(new JLabel("Quantit� vendue"));
+		contentPane.add(new JLabel("Quantité vendue"));
 		contentPane.add(txtQuantite);
 		contentPane.add(btVente);
 
@@ -48,7 +45,7 @@ public class FenetreVente extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btVente){
-			ControleurAchatVente.venteProduit(this, combo.getSelectedItem().toString(), txtQuantite.getText());
+			ControleurAchatVente.venteProduit(this, combo, txtQuantite.getText());
 		}
 	}
 

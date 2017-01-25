@@ -4,10 +4,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import bd.ConnexionBD;
 import metier.I_Produit;
 import metier.Produit;
 
-public class ProduitDAO extends DAO<I_Produit> {
+public class ProduitDAO implements I_DAO<I_Produit> {
 	
 	private Connection connect;
 	
@@ -43,8 +44,22 @@ public class ProduitDAO extends DAO<I_Produit> {
 	}
 
 	@Override
-	public boolean update(I_Produit obj) {
-		// TODO Stub de la méthode généré automatiquement
+	public boolean update(String nomP, int qte) throws QuantiteeStock_Exception {
+		I_Produit p = find(nomP);
+		if((p.getQuantite() + qte)<0){
+			throw (new QuantiteeStock_Exception("Pas assez de stock."));
+		}
+		p.ajouter(qte);
+		try {
+			PreparedStatement pst = connect.prepareStatement("UPDATE Produits SET quantiteStock = ?  WHERE nomProduit = ?");
+			pst.setInt(1, qte);
+			pst.setString(2, nomP);
+			pst.execute();
+			return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -88,6 +103,32 @@ public class ProduitDAO extends DAO<I_Produit> {
 		}
 		
 		return listProduits;
+	}
+	private I_Produit find(String nom){
+		String nomProduit;
+		int qteStock;
+		double prixHT;
+		try {
+			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT FROM Produits WHERE nomProduit = ?");
+			pst.setString(1, nom);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				nomProduit = rs.getString(1);
+				qteStock = rs.getInt(2);
+				prixHT = rs.getDouble(3);
+				return new Produit(nomProduit, prixHT, qteStock);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void deconnexion() {
+		ConnexionBD.deconnexion();
 	}
 
 }

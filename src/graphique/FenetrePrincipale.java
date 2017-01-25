@@ -2,23 +2,20 @@ package graphique;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.rmi.dgc.Lease;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.*;
 
-import application.ControleurAchat;
 import application.ControleurPrincipal;
-import application.ControleurProduit;
 import application.ControleurStock;
 import bd.ConnexionBD;
-import metier.Catalogue;
-import metier.Produit;
 
 public class FenetrePrincipale extends JFrame implements ActionListener,
 	WindowListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1731314792688972956L;
 	private JButton btAfficher;
 	private JButton btNouveauProduit;
 	private JButton btSupprimerProduit;
@@ -27,8 +24,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btAchat;
 	private JButton btVente;
 	private JButton btQuitter;
-	private static ControleurAchat leControleurAchat;
-	private static ControleurStock leControleurStock;
 
 	
 
@@ -82,29 +77,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
-		/* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
-   		Quand l'application fonctionnera, il faudra bien sûr récupérer les noms des produits dans le Catalogue */
-		//String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
-		
-		//String[] tabProduits = new String[];
-		
-		/* Même chose pour tabCategories (partie 4) */ 		
-		//String[] tabCategories = new String[] {"Bio", "Luxe" };
-		
 		
 		if (e.getSource() == btAchat){
-			//new FenetreAchat(leControleurProduit.getLesProduits());
-			//new FenetreAchat();
+			new FenetreAchat(ControleurPrincipal.getNomsProduits());
 		}
 		if (e.getSource() == btVente)
-			//new FenetreVente(leControleurAchat.getLesProduits());
-		
-		
-		
-		
+			new FenetreVente(ControleurPrincipal.getNomsProduits());
 		if (e.getSource() == btAfficher)
-			new FenetreAffichage(leControleurStock.afficherStock());
+			new FenetreAffichage(ControleurStock.afficherStock());
 		if (e.getSource() == btNouveauProduit)
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
@@ -123,8 +103,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		
 	public static void main(String[] args) {
 		new ControleurPrincipal();
-		leControleurAchat = new ControleurAchat();
-		leControleurStock = new ControleurStock();
 		new FenetrePrincipale();
 	}
 

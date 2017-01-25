@@ -1,8 +1,6 @@
 package metier;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,16 +24,16 @@ public class Catalogue implements I_Catalogue{
 	}
 	
 	public String toString() {
-		String s = "";
+		String chaineRetour = "";
 		DecimalFormat df = new DecimalFormat("#0.00");
 		
 		for (I_Produit p : lesProduits) {
-			s += p.toString();
+			chaineRetour += p.toString();
 		}
 		
-		s += "\n" + "Montant total TTC du stock : " + df.format(this.getMontantTotalTTC()) +" €";
+		chaineRetour += "\n" + "Montant total TTC du stock : " + df.format(this.getMontantTotalTTC()) +" €";
 		
-		return s;
+		return chaineRetour;
 	}
 
 	@Override
@@ -94,9 +92,9 @@ public class Catalogue implements I_Catalogue{
 	}
 	@Override
 	public boolean removeProduit(String nom) {
-		I_Produit produitAsupprime = this.getProduitByNom(nom);
-		if (produitAsupprime != null) {
-			return this.lesProduits.remove(produitAsupprime);
+		I_Produit produitAsupprimer = this.getProduitByNom(nom);
+		if (produitAsupprimer != null) {
+			return this.lesProduits.remove(produitAsupprimer);
 		} else {
 			return false;
 		}

@@ -2,18 +2,18 @@ package graphique;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.*;
 
-import metier.Produit;
-
 public class FenetreAffichage extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3269199765969312063L;
 	private JButton btOK;
 	
-	public FenetreAffichage(ArrayList<String> texte) {
+	public FenetreAffichage(String texte) {
 
 		setTitle("Affichage");
 		setBounds(500, 500, 450, 250);
@@ -23,12 +23,8 @@ public class FenetreAffichage extends JFrame implements ActionListener {
 		panBas.setLayout(new FlowLayout());
 		
 		JTextArea jtaSortie = new JTextArea("Récaptitulatif du stock : \n",10,5);
-		
-		for(Iterator<String> i = texte.iterator(); i.hasNext();){
-			String uneLigne = i.next();
-			jtaSortie.append(uneLigne + "\n");
-			
-		}
+		jtaSortie.append(texte);
+
 		jtaSortie.setLineWrap(true);
 		jtaSortie.setEditable(false);
 		btOK = new JButton("Quitter");
