@@ -6,13 +6,17 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import metier.I_Catalogue;
+
 
 public class ControleurAchatVente extends ControleurPrincipal{
 
-	public ControleurAchatVente() {
-		super();
-	}
+
 	
+	public ControleurAchatVente(I_Catalogue catalogueSelectionee) {
+		super(catalogueSelectionee);
+	}
+
 	private static boolean testEntreeUtilisateur(String txtQte) throws Exception{
 		boolean retour;
 		if(txtQte.isEmpty()){

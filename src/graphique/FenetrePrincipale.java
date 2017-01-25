@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import application.ControleurPrincipal;
 import application.ControleurStock;
-import bd.ConnexionBD;
 
 public class FenetrePrincipale extends JFrame implements ActionListener,
 	WindowListener {
@@ -95,21 +94,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		if (e.getSource() == btSupprimerCategorie)
 //			new FenetreSuppressionCategorie(tabCategories);
 		if (e.getSource() == btQuitter){
-			System.out.println("Au revoir");
-			System.exit(0);
+			new FenetreAccueil();
+			this.dispose();
 		}	
 	}
 
-		
-	public static void main(String[] args) {
-		new ControleurPrincipal();
-		new FenetrePrincipale();
-	}
-
 	public void windowClosing(WindowEvent arg0) {
-		System.out.println("Au revoir");
-		ConnexionBD.deconnexion();
-		System.exit(0);
+		new FenetreAccueil();
+		this.dispose();
 	}
 	public void windowActivated(WindowEvent arg0) {}
 	public void windowClosed(WindowEvent arg0) {}

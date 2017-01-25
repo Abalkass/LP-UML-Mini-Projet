@@ -14,7 +14,8 @@ public class Catalogue implements I_Catalogue{
 	private ArrayList<I_Produit> lesProduits;
 	private String nomCatalogue;
 
-	public Catalogue() {
+	public Catalogue(String nom) {
+		this.nomCatalogue = nom;
 		lesProduits = new ArrayList<I_Produit>();
 	}
 	public String getNomCatalogue() {

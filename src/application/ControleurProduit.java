@@ -3,11 +3,16 @@ package application;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import metier.I_Catalogue;
 import metier.I_Produit;
 import metier.Produit;
 
 public class ControleurProduit extends ControleurPrincipal{
 	
+	public ControleurProduit(I_Catalogue catalogueSelectionee) {
+		super(catalogueSelectionee);
+	}
+
 	public static boolean ajouterProduit(String nomProduit, String prixProduit, String qteProduit, JFrame maFrame) {
 		if (nomProduit==null) {
 			JOptionPane.showMessageDialog(maFrame, "Tous les champs doivent être saisi.", "Erreur", JOptionPane.WARNING_MESSAGE);
