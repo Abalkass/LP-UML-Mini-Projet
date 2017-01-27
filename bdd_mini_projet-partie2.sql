@@ -1,6 +1,5 @@
-
 CREATE TABLE Produits
-(idProduit VARCHAR(2), nomProduit VARCHAR(100), quantiteStock NUMBER(*,0), prixUnitaireHT NUMBER(*,2),
+(idProduit NUMBER, nomProduit VARCHAR(100), quantiteStock NUMBER(*,0), prixUnitaireHT NUMBER(*,2),
 CONSTRAINT pk_Produit PRIMARY KEY (idProduit),
 CONSTRAINT un_nomProduit_Produit UNIQUE (nomProduit),
 CONSTRAINT nn_nomProduit_Produit CHECK (nomProduit IS NOT NULL),
