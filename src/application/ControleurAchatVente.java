@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import metier.I_Catalogue;
+import metier.I_Produit;
 
 
 public class ControleurAchatVente extends ControleurPrincipal{
@@ -41,7 +42,9 @@ public class ControleurAchatVente extends ControleurPrincipal{
 			if(testEntreeUtilisateur(txtQte) == true){
 				int quantitee = Integer.parseInt(txtQte);
 				catalogue.acheterStock(selectedProduit, quantitee);
-				produitDao.update(selectedProduit, +quantitee);
+				I_Produit p = catalogue.getProduitByNom(selectedProduit);
+				p.setQuantitee(+quantitee);
+				produitDao.update(p);
 				throw new Exception("Votre achat de : " + selectedProduit + " (x" + quantitee + ")a bien été enregistré.");
 			}
 		} catch (Exception e) {
@@ -55,7 +58,9 @@ public class ControleurAchatVente extends ControleurPrincipal{
 			if(testEntreeUtilisateur(txtQte) == true){
 				int quantitee = Integer.parseInt(txtQte);
 				catalogue.vendreStock(selectedProduit, quantitee);
-				produitDao.update(selectedProduit, -quantitee);
+				I_Produit p = catalogue.getProduitByNom(selectedProduit);
+				p.setQuantitee(-quantitee);
+				produitDao.update(p);
 				throw new Exception("Votre vente de : "+selectedProduit+" (x" + quantitee + ")a bien été enregistré.");
 			}
 		} catch (Exception e) {

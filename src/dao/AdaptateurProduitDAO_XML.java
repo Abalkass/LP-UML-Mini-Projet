@@ -19,29 +19,27 @@ public class AdaptateurProduitDAO_XML implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public boolean update(String nom, int qte) throws QuantiteeStock_Exception {
-		I_Produit p = prod_XML.lire(nom);
-		if((p.getQuantite() + qte)<0){
+	public boolean update(I_Produit p) throws QuantiteeStock_Exception {
+		if((p.getQuantite() + p.getQuantite())<0){
 			throw (new QuantiteeStock_Exception("Pas assez de stock."));
 		}
-		p.ajouter(qte);
+		p.ajouter(p.getQuantite());
 		return prod_XML.maj(p);
 	}
 
 	@Override
-	public boolean delete(String nomT) {
-		I_Produit p = prod_XML.lire(nomT);
+	public boolean delete(I_Produit p) {
 		return prod_XML.supprimer(p);
 	}
 
 	@Override
-	public List<I_Produit> find() {
+	public List<I_Produit> findAll() {
 		return prod_XML.lireTous();
 	}
 
 	@Override
-	public void deconnexion() {
-		return;
+	public I_Produit findByAttribute(String colonne, Object valeur) {
+		return prod_XML.lire((String) valeur);
 	}
 
 }

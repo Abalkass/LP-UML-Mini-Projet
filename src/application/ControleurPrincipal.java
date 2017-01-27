@@ -5,6 +5,7 @@ import graphique.FenetrePrincipale;
 
 import java.util.ArrayList;
 
+import dao.DAOAbstraiteFactory;
 import dao.DAOFactory;
 import dao.DAOFactory_XML;
 import metier.I_Catalogue;
@@ -19,12 +20,12 @@ public class ControleurPrincipal {
 		catalogue = catalogueSelectionee;
 		
 		//Ligne à changer pour avoir la BD relationnel
-		produitDao = new DAOFactory().createProduitImplementantDAO();
+		produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
 		
 		//Ligne à changer pour avoir la BD XML
 		//produitDao = new DAOFactory_XML().createProduitImplementantDAO();
 		
-		catalogue.addProduits(produitDao.find());
+		catalogue.addProduits(produitDao.findAll());
 		new FenetrePrincipale();
 	}
 	
@@ -34,8 +35,4 @@ public class ControleurPrincipal {
 	public void setCatalogue(String nom){
 		
 	}
-	public static void deconnexion(){
-		produitDao.deconnexion();
-	}
-
 }

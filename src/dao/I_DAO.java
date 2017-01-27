@@ -16,24 +16,31 @@ public interface I_DAO<T> {
 	 * @param obj
 	 * @return  TRUE ssi l'objet T a été mis à jour
 	 */
-	public abstract boolean update(String nomT, int qte) throws QuantiteeStock_Exception;
+	public abstract boolean update(T obj) throws QuantiteeStock_Exception;
 
 	/**
 	 * Supprime l'objet dont le nom = nomT dans la BD
 	 * @param obj
 	 * @return  TRUE ssi l'objet T a été supprimé 
 	 */
-	public abstract boolean delete(String nomT);
+	public abstract boolean delete(T obj);
 
 	/**
 	 * @param id
 	 * @return une liste de T éléments contenu dans la BD
 	 */
-	public abstract List<T> find();
-	
+	public abstract List<T> findAll();
+
 	/**
-	 * Deconnexion de la BD.
+	 * @param colonne, valeur
+	 * @return un objet T contenu dans la BD
 	 */
-	public abstract void deconnexion();
+	public abstract T findByAttribute(String colonne, Object valeur); 
+	/**
+	 * 
+	 * @param nomCat
+	 * @return le nombre de produits dans un catalogue
+	 */
+	public abstract int getNbTuples(String nomCat);
 	
 }

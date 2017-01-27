@@ -27,7 +27,7 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 	}
 
 	@Override
-	public boolean create(I_Catalogue c) {
+	public boolean create(I_Catalogue cat) {
 		// TODO Stub de la méthode généré automatiquement
 		try {
 			Element root = doc.getRootElement();
@@ -46,7 +46,7 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 	}
 
 	@Override
-	public boolean update(String nomT, int qte) throws QuantiteeStock_Exception {
+	public boolean update(I_Catalogue cat){
 		try {
 			Element prod = chercheProduit(p.getNom());
 			if (prod != null) {
@@ -61,7 +61,7 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 	}
 
 	@Override
-	public boolean delete(String nomT) {
+	public boolean delete(I_Catalogue cat) {
 		try {
 			Element root = doc.getRootElement();
 			Element prod = chercheProduit(p.getNom());
@@ -77,7 +77,7 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 	}
 
 	@Override
-	public List<I_Catalogue> find() {
+	public List<I_Catalogue> findAll() {
 
 		List<I_Catalogue> l = new ArrayList<I_Catalogue>();
 		try {

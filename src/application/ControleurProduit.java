@@ -21,7 +21,7 @@ public class ControleurProduit extends ControleurPrincipal{
 			try {
 				double prix = Double.parseDouble(prixProduit);
 				int qte = Integer.parseInt(qteProduit);
-				I_Produit p = new Produit(nomProduit, prix, qte);
+				I_Produit p = new Produit(nomProduit, prix, qte, catalogue);
 				
 				catalogue.addProduit(p);
 				
@@ -47,7 +47,8 @@ public class ControleurProduit extends ControleurPrincipal{
 			System.err.println("Aucun produit sélectionner");
 			return false;
 		} else {
-			return produitDao.delete(nomProduitASupprimer) && catalogue.removeProduit(nomProduitASupprimer);
+			I_Produit p = catalogue.getProduitByNom(nomProduitASupprimer);
+			return produitDao.delete(p) && catalogue.removeProduit(nomProduitASupprimer);
 		}
 	}
 	

@@ -4,7 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import bd.ConnexionBD;
+import metier.Catalogue;
+import metier.I_Catalogue;
 import metier.I_Produit;
 import metier.Produit;
 
@@ -29,7 +30,7 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		double prixHT = obj.getPrixUnitaireHT();
 		
 		try {
-			CallableStatement cst = connect.prepareCall("{call nouveauProduit(?,?,?)}");
+			CallableStatement cst = connect.prepareCall("{call nouveauProduit(?,?,?,?)}");
 			cst.setString(1, nomProduit);
 			cst.setInt(2, qteStock);
 			cst.setDouble(3, prixHT);
@@ -44,16 +45,17 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public boolean update(String nomP, int qte) throws QuantiteeStock_Exception {
-		I_Produit p = find(nomP);
-		if((p.getQuantite() + qte)<0){
+	public boolean update(I_Produit produit) throws QuantiteeStock_Exception {
+		I_Produit p = findByAttribute("nomProduit", produit.getNom());
+		
+		if((p.getQuantite() + produit.getQuantite())<0){
 			throw (new QuantiteeStock_Exception("Pas assez de stock."));
 		}
-		p.ajouter(qte);
+		p.ajouter(produit.getQuantite());
 		try {
 			PreparedStatement pst = connect.prepareStatement("UPDATE Produits SET quantiteStock = ?  WHERE nomProduit = ?");
-			pst.setInt(1, qte);
-			pst.setString(2, nomP);
+			pst.setInt(1, produit.getQuantite());
+			pst.setString(2, produit.getNom());
 			pst.execute();
 			return true;
 			
@@ -64,8 +66,8 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public boolean delete(String nomProduit) {
-		
+	public boolean delete(I_Produit produit) {
+		String nomProduit = produit.getNom();
 		try {
 			PreparedStatement pst = connect.prepareStatement("DELETE FROM Produits WHERE nomProduit = ?");
 			pst.setString(1, nomProduit);
@@ -80,21 +82,23 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public List<I_Produit> find() {
+	public List<I_Produit> findAll() {
 		List<I_Produit> listProduits = new ArrayList<I_Produit>();
 		I_Produit p;
 		String nomProduit;
 		int qteStock;
 		double prixHT;
+		I_Catalogue catalogue;
 		
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT FROM Produits");
+			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits");
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				nomProduit = rs.getString(1);
 				qteStock = rs.getInt(2);
 				prixHT = rs.getDouble(3);
-				p = new Produit(nomProduit, prixHT, qteStock);
+				catalogue = this.findCatalogue(rs.getInt(4));
+				p = new Produit(nomProduit, prixHT, qteStock, catalogue);
 				listProduits.add(p);
 			}
 			
@@ -104,19 +108,23 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		
 		return listProduits;
 	}
-	private I_Produit find(String nom){
+	@Override
+	public I_Produit findByAttribute(String colonne, Object valeur){
 		String nomProduit;
 		int qteStock;
 		double prixHT;
+		I_Catalogue catalogue;
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT FROM Produits WHERE nomProduit = ?");
-			pst.setString(1, nom);
+			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits WHERE ? = ?");
+			pst.setString(1, colonne);
+			pst.setObject(2, valeur);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				nomProduit = rs.getString(1);
 				qteStock = rs.getInt(2);
-				prixHT = rs.getDouble(3);
-				return new Produit(nomProduit, prixHT, qteStock);
+				prixHT = rs.getInt(3);
+				catalogue = this.findCatalogue(rs.getInt(4));
+				return new Produit(nomProduit, prixHT, qteStock, catalogue);
 			}
 			
 		} catch (SQLException e) {
@@ -125,10 +133,26 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		
 		return null;
 	}
-
-	@Override
-	public void deconnexion() {
-		ConnexionBD.deconnexion();
+	private I_Catalogue findCatalogue(int id){
+		int idCatalogue;
+		String nomCatalogue;
+		try {
+			PreparedStatement pst = connect.prepareStatement("SELECT idCatalogue, nomCatalogue FROM Catalogue WHERE idCatalogue = ?");
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				idCatalogue = rs.getInt(1);
+				nomCatalogue = rs.getString(2);
+				I_Catalogue c = new Catalogue(nomCatalogue);
+				c.setIdCatalogue(idCatalogue);
+				return c;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
-
+	
 }

@@ -12,11 +12,18 @@ import metier.Produit;
 public class Catalogue implements I_Catalogue{
 
 	private ArrayList<I_Produit> lesProduits;
+	private int idCatalogue;
 	private String nomCatalogue;
 
 	public Catalogue(String nom) {
 		this.nomCatalogue = nom;
 		lesProduits = new ArrayList<I_Produit>();
+	}
+	public int getIdCatalogue() {
+		return idCatalogue;
+	}
+	public void setIdCatalogue(int idCatalogue) {
+		this.idCatalogue = idCatalogue;
 	}
 	public String getNomCatalogue() {
 		return nomCatalogue;
@@ -69,7 +76,7 @@ public class Catalogue implements I_Catalogue{
 
 	@Override
 	public boolean addProduit(String nom, double prix, int qte) {
-		Produit unProduit = new Produit(nom.replace("	", " ").trim(), prix, qte);
+		Produit unProduit = new Produit(nom.replace("	", " ").trim(), prix, qte, this);
 		return addProduit(unProduit);
 	}
 
@@ -90,7 +97,7 @@ public class Catalogue implements I_Catalogue{
 	 * @param nom
 	 * @return le produit contenu dans le catalogue dont le nom est le même que celui dans le paramètre
 	 */
-	private I_Produit getProduitByNom(String nom) {
+	public I_Produit getProduitByNom(String nom) {
 		for (I_Produit p : this.lesProduits) {
 			if (p.getNom() == nom) {
 				return p;
@@ -172,4 +179,6 @@ public class Catalogue implements I_Catalogue{
 	public void clear() {
 		lesProduits = null;
 	}
+
+
 }

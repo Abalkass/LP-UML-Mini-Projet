@@ -1,31 +1,22 @@
 package application;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import dao.DAOAbstraiteFactory;
+import dao.I_DAO;
 import metier.Catalogue;
 import metier.I_Catalogue;
 
 public class ControleurEnsembleCatalogue {
 	private static  List<I_Catalogue> lesCatalogues;
 	private static ControleurEnsembleCatalogue instance = null;
+	private static I_DAO<I_Catalogue> catalogueDAO;
 	
 	private ControleurEnsembleCatalogue(){
-		lesCatalogues = new ArrayList<I_Catalogue>();
-		I_Catalogue formacia = new Catalogue("Formacia");
-		formacia.addProduit("Mars", 4.5, 50);
-		formacia.addProduit("Raider", 6.78, 50);
-		formacia.addProduit("Twix", 4.99, 50);
-		
-		I_Catalogue redoutable = new Catalogue("redoutable");
-		redoutable.addProduit("Treets", 6.99, 50);
-		redoutable.addProduit("M&M's", 19.99, 50);
-		redoutable.addProduit("Smarties", 12.50, 50);
-		redoutable.addProduit("qshgqsf", 12.50, 50);
-		lesCatalogues.add(formacia);
-		lesCatalogues.add(redoutable);
+		catalogueDAO = DAOAbstraiteFactory.getInstance("BD").createCatalogueImplementantDAO();
+		lesCatalogues = catalogueDAO.findAll();
 	}
 	
 	public static synchronized ControleurEnsembleCatalogue getInstance(){
@@ -55,7 +46,8 @@ public class ControleurEnsembleCatalogue {
 			int index = 0;
 			for(Iterator<I_Catalogue> i = lesCatalogues.iterator(); i.hasNext();){
 				I_Catalogue unCata = i.next();
-				detailsCatalogues[index] = unCata.getNomCatalogue() + " : " + unCata.getNomProduits().length + " produits.";
+				int nbTuples = catalogueDAO.getNbTuples(unCata.getNomCatalogue());
+				detailsCatalogues[index] = unCata.getNomCatalogue() + " : " + nbTuples + " produits.";
 				index++;
 			}
 			Arrays.sort(detailsCatalogues);
@@ -79,7 +71,8 @@ public class ControleurEnsembleCatalogue {
 	}
 	public boolean addCatalogue(String nomCat){
 		if(!estDansEnsembleCatalogue(nomCat)){
-			return lesCatalogues.add(new Catalogue(nomCat));
+			I_Catalogue c = new Catalogue(nomCat);
+			return catalogueDAO.create(c) && lesCatalogues.add(c);
 		}
 		return false;
 	}
@@ -96,7 +89,7 @@ public class ControleurEnsembleCatalogue {
 	public boolean deleteCatalogue(String nomCat){
 		I_Catalogue cat = getUnCatalogue(nomCat);
 		if(cat != null){
-			return lesCatalogues.remove(cat);
+			return catalogueDAO.delete(cat) && lesCatalogues.remove(cat);
 		}
 		return false;
 	}
