@@ -3,20 +3,28 @@
 	<produit nom="Mars">
 		<prixHT>4.0</prixHT>
 		<quantite>12</quantite>
-	</produit>
+		<catalogue idCatalogue="1">
+			<nomCatalogue>Technologie</nomCatalogue></catalogue></produit>
 	
 	<produit nom="Bounty">
 		<prixHT>8.0</prixHT>
 		<quantite>7</quantite>
+		<catalogue idCatalogue="2">
+			<nomCatalogue>Friandise</nomCatalogue>
+		</catalogue>
 	</produit>
 	
 	<produit nom="Raider">
 		<prixHT>5.5</prixHT>
 		<quantite>7</quantite>
+		<catalogue idCatalogue="2">
+			<nomCatalogue>Friandise</nomCatalogue></catalogue>
 	</produit>
 	
 	<produit nom="Treets">
 		<prixHT>6.99</prixHT>
 		<quantite>25</quantite>
+		<catalogue idCatalogue="1">
+			<nomCatalogue>Technologie</nomCatalogue></catalogue>
 	</produit>
 </listeProduits>

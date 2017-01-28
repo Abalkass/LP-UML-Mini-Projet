@@ -8,6 +8,8 @@ import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;
 
+import metier.Catalogue;
+import metier.I_Catalogue;
 import metier.I_Produit;
 import metier.Produit;
 
@@ -72,26 +74,39 @@ public class ProduitDAO_XML {
 
 	public I_Produit lire(String nom) {
 		Element e = chercheProduit(nom);
-		if (e != null)
-			return new Produit(e.getAttributeValue("nom"), Double.parseDouble(e.getChildText("prixHT")), Integer.parseInt(e.getChildText("quantite")));
-		else
-			return null;
+		Element cat = e.getChild("catalogue");
+
+			I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
+			catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
+			return new Produit(e.getAttributeValue("nom"), Double.parseDouble(e.getChildText("prixHT")), Integer.parseInt(e.getChildText("quantite")), catalogue);
+
 	}
 
-	public List<I_Produit> lireTous() {
+	public List<I_Produit> lireTous(Integer idCat) {
 
 		List<I_Produit> l = new ArrayList<I_Produit>();
 		try {
 			Element root = doc.getRootElement();
+			@SuppressWarnings("unchecked")
 			List<Element> lProd = root.getChildren("produit");
 
 			for (Element prod : lProd) {
+				//l.add(lire(prod.getAttributeValue("nom")));
+				Element cat = prod.getChild("catalogue");
 				String nomP = prod.getAttributeValue("nom");
 				Double prix = Double.parseDouble(prod.getChild("prixHT").getText());
 				int qte = Integer.parseInt(prod.getChild("quantite").getText());
-				l.add(new Produit(nomP, prix, qte));
+				I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
+				catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
+				if(catalogue.getIdCatalogue() == idCat){
+					l.add(new Produit(nomP, prix, qte, catalogue));
+				}
+				
 			}
 		} catch (Exception e) {
+			System.out.println("Mess"+e.getMessage());
+			System.out.println("cause"+e.getCause());
+			System.out.println("stack"+e.getStackTrace());
 			System.out.println("erreur lireTous tous les produits");
 		}
 		return l;
@@ -111,6 +126,7 @@ public class ProduitDAO_XML {
 
 	private Element chercheProduit(String nom) {
 		Element root = doc.getRootElement();
+		@SuppressWarnings("unchecked")
 		List<Element> lProd = root.getChildren("produit");
 		int i = 0;
 		while (i < lProd.size() && !lProd.get(i).getAttributeValue("nom").equals(nom))
@@ -119,5 +135,10 @@ public class ProduitDAO_XML {
 			return lProd.get(i);
 		else
 			return null;
+	}
+	
+	public int getNbTuples(String nom){
+		Element root = doc.getRootElement();
+		return root.getChildren().size();
 	}
 }

@@ -33,13 +33,18 @@ public class AdaptateurProduitDAO_XML implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public List<I_Produit> findAll() {
-		return prod_XML.lireTous();
+	public List<I_Produit> findAll(Integer idCat) {
+		return prod_XML.lireTous(idCat);
 	}
 
 	@Override
 	public I_Produit findByAttribute(String colonne, Object valeur) {
 		return prod_XML.lire((String) valeur);
+	}
+
+	@Override
+	public int getNbTuples(String nom) {
+		return prod_XML.getNbTuples(nom);
 	}
 
 }

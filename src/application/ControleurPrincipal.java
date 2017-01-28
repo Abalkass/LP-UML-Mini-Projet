@@ -19,20 +19,17 @@ public class ControleurPrincipal {
 	public ControleurPrincipal(I_Catalogue catalogueSelectionee){
 		catalogue = catalogueSelectionee;
 		
-		//Ligne à changer pour avoir la BD relationnel
-		produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
+		//Ligne à changer pour avoir la BDD relationnel
+			//produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
 		
-		//Ligne à changer pour avoir la BD XML
-		//produitDao = new DAOFactory_XML().createProduitImplementantDAO();
+		//Ligne à changer pour avoir la BDD XML
+			produitDao = DAOAbstraiteFactory.getInstance("XML").createProduitImplementantDAO();
 		
-		catalogue.addProduits(produitDao.findAll());
+		catalogue.addProduits(produitDao.findAll(catalogue.getIdCatalogue()));
 		new FenetrePrincipale();
 	}
 	
 	public static String[] getNomsProduits() {
 		return ControleurPrincipal.catalogue.getNomProduits();
-	}
-	public void setCatalogue(String nom){
-		
 	}
 }

@@ -15,8 +15,8 @@ public class ControleurEnsembleCatalogue {
 	private static I_DAO<I_Catalogue> catalogueDAO;
 	
 	private ControleurEnsembleCatalogue(){
-		catalogueDAO = DAOAbstraiteFactory.getInstance("BD").createCatalogueImplementantDAO();
-		lesCatalogues = catalogueDAO.findAll();
+		catalogueDAO = DAOAbstraiteFactory.getInstance("XML").createCatalogueImplementantDAO();
+		lesCatalogues = catalogueDAO.findAll(null);
 	}
 	
 	public static synchronized ControleurEnsembleCatalogue getInstance(){

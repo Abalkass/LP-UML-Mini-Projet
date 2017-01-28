@@ -82,7 +82,7 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public List<I_Produit> findAll() {
+	public List<I_Produit> findAll(Integer idCat) {
 		List<I_Produit> listProduits = new ArrayList<I_Produit>();
 		I_Produit p;
 		String nomProduit;
@@ -91,7 +91,8 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		I_Catalogue catalogue;
 		
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits");
+			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits where idCatalogue = ?");
+			pst.setInt(1, idCat);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				nomProduit = rs.getString(1);
@@ -153,6 +154,26 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		}
 		
 		return null;
+	}
+	/**
+	 * @param le nom du catalogue concerné
+	 * @return le nombre de produits contenus dans un catalogue
+	 */
+	@Override
+	public int getNbTuples(String nomCatalogue) {
+		try {
+			PreparedStatement pst = connect.prepareStatement("SELECT count(*) FROM Produits p JOIN Catalogue c ON c.idCatalogue = p.idCatalogue WHERE nomCatalogue = ?");
+			pst.setString(1, nomCatalogue);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 	
 }

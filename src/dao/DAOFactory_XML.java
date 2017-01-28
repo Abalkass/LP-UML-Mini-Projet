@@ -5,7 +5,7 @@ import metier.I_Produit;
 
 public class DAOFactory_XML extends DAOAbstraiteFactory {
 
-	public DAOFactory_XML() {}
+	public DAOFactory_XML() { }
 	
 	@Override
 	public I_DAO<I_Produit> createProduitImplementantDAO() {
@@ -14,7 +14,7 @@ public class DAOFactory_XML extends DAOAbstraiteFactory {
 
 	@Override
 	public I_DAO<I_Catalogue> createCatalogueImplementantDAO() {
-		return new CatalogueDAO();
+		return new CatalogueDAO_XML();
 	}
 
 }

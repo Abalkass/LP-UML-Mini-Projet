@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listeCatalogues>
-	<catalogue nom="Technologie"></catalogue>
-	<catalogue nom="Friandise">	</catalogue>
+	<catalogue id="1">
+		<nomCatalogue>Technologie</nomCatalogue></catalogue>
+	<catalogue id="2">
+		<nomCatalogue>Friandise</nomCatalogue>
+	</catalogue>
 </listeCatalogues>

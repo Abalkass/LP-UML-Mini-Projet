@@ -29,18 +29,18 @@ public interface I_DAO<T> {
 	 * @param id
 	 * @return une liste de T éléments contenu dans la BD
 	 */
-	public abstract List<T> findAll();
+	public abstract List<T> findAll(Integer obj);
 
 	/**
 	 * @param colonne, valeur
 	 * @return un objet T contenu dans la BD
-	 */
+	 */ 
 	public abstract T findByAttribute(String colonne, Object valeur); 
 	/**
 	 * 
 	 * @param nomCat
 	 * @return le nombre de produits dans un catalogue
 	 */
-	public abstract int getNbTuples(String nomCat);
+	public abstract int getNbTuples(String nom);
 	
 }
