@@ -37,14 +37,17 @@ public class ConnexionBD {
 		return instanceConnection;
 	}
 
-	public static void deconnexion() {
+	public static boolean deconnexion() {
 		try {
 			instanceConnection.close();
 			instanceConnection = null;
 			System.out.println("Déconnexion à la base de données réussie !");
+			return true;
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
+		
+		return false;
 	}
 
 }

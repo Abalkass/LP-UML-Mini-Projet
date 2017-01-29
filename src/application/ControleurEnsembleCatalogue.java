@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import dao.DAOAbstraiteFactory;
+import dao.DAOFactory;
 import dao.I_DAO;
 import metier.Catalogue;
 import metier.I_Catalogue;
@@ -15,7 +16,7 @@ public class ControleurEnsembleCatalogue {
 	private static I_DAO<I_Catalogue> catalogueDAO;
 	
 	private ControleurEnsembleCatalogue(){
-		catalogueDAO = DAOAbstraiteFactory.getInstance("XML").createCatalogueImplementantDAO();
+		catalogueDAO = DAOAbstraiteFactory.getInstance("BD").createCatalogueImplementantDAO();
 		lesCatalogues = catalogueDAO.findAll(null);
 	}
 	
@@ -99,5 +100,9 @@ public class ControleurEnsembleCatalogue {
 		if(c != null){
 			new ControleurPrincipal(c);
 		}
+	}
+	
+	public static void deconnexionBD() {
+		DAOAbstraiteFactory.getInstance(null).deconnexionBD();
 	}
 }
