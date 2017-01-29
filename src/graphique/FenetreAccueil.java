@@ -160,8 +160,8 @@ public class FenetreAccueil extends JFrame implements ActionListener, WindowList
 	
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		System.out.println("Au revoir");
 		ControleurEnsembleCatalogue.deconnexionBD();
+		System.out.println("Au revoir");
 		System.exit(0);
 	}
 	

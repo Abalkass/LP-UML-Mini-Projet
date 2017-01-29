@@ -22,11 +22,9 @@ public class ControleurProduit extends ControleurPrincipal{
 				double prix = Double.parseDouble(prixProduit);
 				int qte = Integer.parseInt(qteProduit);
 				I_Produit p = new Produit(nomProduit, prix, qte, catalogue);
-				
-				catalogue.addProduit(p);
-				
+			
 				JOptionPane.showMessageDialog(maFrame, "Le produit " + nomProduit + " a été bien enregistré.", "Ajout produit", JOptionPane.INFORMATION_MESSAGE);
-				return produitDao.create(p);
+				return produitDao.create(p) && catalogue.addProduit(p);
 				
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(maFrame, "La quantité et le prix doivent être un entier positif.", "Erreur", JOptionPane.WARNING_MESSAGE);

@@ -28,12 +28,14 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		String nomProduit = obj.getNom();
 		int qteStock = obj.getQuantite();
 		double prixHT = obj.getPrixUnitaireHT();
+		String nomCatalogueProduit = obj.getCatalogue().getNomCatalogue();
 		
 		try {
 			CallableStatement cst = connect.prepareCall("{call nouveauProduit(?,?,?,?)}");
 			cst.setString(1, nomProduit);
 			cst.setInt(2, qteStock);
 			cst.setDouble(3, prixHT);
+			cst.setString(4, nomCatalogueProduit);
 			cst.execute();
 			return true;
 			
