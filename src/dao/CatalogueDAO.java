@@ -110,18 +110,20 @@ public class CatalogueDAO implements I_DAO<I_Catalogue> {
 	 * @return le nombre de produits contenus dans un catalogue
 	 */
 	@Override
-	public int getNbTuples(String s){
+	public int getNbTuples(String nomCatalogue){
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT count(*) FROM Catalogue ");
+			PreparedStatement pst = connect.prepareStatement(
+					"SELECT count(*) FROM Catalogue c JOIN Produits p ON c.idCatalogue = p.idCatalogue WHERE nomCatalogue = ?");
+			pst.setString(1, nomCatalogue);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return 0;
 	}
 
