@@ -10,14 +10,14 @@ import metier.I_Produit;
 import metier.Produit;
 
 public class ProduitDAO implements I_DAO<I_Produit> {
-	
+
 	private Connection connect;
-	
+
 	public ProduitDAO() {
 		super();
 		this.connect = null;
 	}
-	
+
 	public ProduitDAO(Connection connect) {
 		super();
 		this.connect = connect;
@@ -29,7 +29,7 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		int qteStock = obj.getQuantite();
 		double prixHT = obj.getPrixUnitaireHT();
 		String nomCatalogueProduit = obj.getCatalogue().getNomCatalogue();
-		
+
 		try {
 			CallableStatement cst = connect.prepareCall("{call nouveauProduit(?,?,?,?)}");
 			cst.setString(1, nomProduit);
@@ -38,32 +38,38 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 			cst.setString(4, nomCatalogueProduit);
 			cst.execute();
 			return true;
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
 	@Override
-	public boolean update(I_Produit produit) throws QuantiteeStock_Exception {
-		I_Produit p = findByAttribute("nomProduit", produit.getNom());
+	public boolean update(I_Produit produitAMettreJour) throws QuantiteeStock_Exception {
+		String nomProduit = produitAMettreJour.getNom();
+		int idCatalogueProduit = produitAMettreJour.getCatalogue().getIdCatalogue();
+		int quantiteNouvelle = produitAMettreJour.getQuantite();
+		I_Produit p = findByAttribute("nomProduit", nomProduit);
 		
-		if((p.getQuantite() + produit.getQuantite())<0){
+		if ((p.getQuantite() + quantiteNouvelle) < 0) {
 			throw (new QuantiteeStock_Exception("Pas assez de stock."));
 		}
-		p.ajouter(produit.getQuantite());
+		
 		try {
-			PreparedStatement pst = connect.prepareStatement("UPDATE Produits SET quantiteStock = ?  WHERE nomProduit = ?");
-			pst.setInt(1, produit.getQuantite());
-			pst.setString(2, produit.getNom());
+			PreparedStatement pst = connect.prepareStatement(
+					"UPDATE Produits SET quantiteStock = ?  WHERE nomProduit = ? AND idCatalogue = ?");
+			pst.setInt(1, quantiteNouvelle);
+			pst.setString(2, nomProduit);
+			pst.setInt(3, idCatalogueProduit);
 			pst.execute();
 			return true;
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return false;
 	}
 
@@ -75,11 +81,11 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 			pst.setString(1, nomProduit);
 			pst.execute();
 			return true;
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
@@ -91,9 +97,10 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		int qteStock;
 		double prixHT;
 		I_Catalogue catalogue;
-		
+
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits where idCatalogue = ?");
+			PreparedStatement pst = connect.prepareStatement(
+					"SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits where idCatalogue = ?");
 			pst.setInt(1, idCat);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
@@ -104,23 +111,24 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 				p = new Produit(nomProduit, prixHT, qteStock, catalogue);
 				listProduits.add(p);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return listProduits;
 	}
+
 	@Override
-	public I_Produit findByAttribute(String colonne, Object valeur){
+	public I_Produit findByAttribute(String colonne, Object valeur) {
 		String nomProduit;
 		int qteStock;
 		double prixHT;
 		I_Catalogue catalogue;
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits WHERE ? = ?");
-			pst.setString(1, colonne);
-			pst.setObject(2, valeur);
+			PreparedStatement pst = connect.prepareStatement(
+					"SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits WHERE "+ colonne +" = ?");
+			pst.setObject(1, valeur);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				nomProduit = rs.getString(1);
@@ -129,18 +137,21 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 				catalogue = this.findCatalogue(rs.getInt(4));
 				return new Produit(nomProduit, prixHT, qteStock, catalogue);
 			}
-			
+
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	private I_Catalogue findCatalogue(int id){
+
+	private I_Catalogue findCatalogue(int id) {
 		int idCatalogue;
 		String nomCatalogue;
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT idCatalogue, nomCatalogue FROM Catalogue WHERE idCatalogue = ?");
+			PreparedStatement pst = connect
+					.prepareStatement("SELECT idCatalogue, nomCatalogue FROM Catalogue WHERE idCatalogue = ?");
 			pst.setInt(1, id);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
@@ -150,32 +161,35 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 				c.setIdCatalogue(idCatalogue);
 				return c;
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
+
 	/**
-	 * @param le nom du catalogue concerné
+	 * @param le
+	 *            nom du catalogue concerné
 	 * @return le nombre de produits contenus dans un catalogue
 	 */
 	@Override
 	public int getNbTuples(String nomCatalogue) {
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT count(*) FROM Produits p JOIN Catalogue c ON c.idCatalogue = p.idCatalogue WHERE nomCatalogue = ?");
+			PreparedStatement pst = connect.prepareStatement(
+					"SELECT count(*) FROM Produits p JOIN Catalogue c ON c.idCatalogue = p.idCatalogue WHERE nomCatalogue = ?");
 			pst.setString(1, nomCatalogue);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return 0;
 	}
-	
+
 }

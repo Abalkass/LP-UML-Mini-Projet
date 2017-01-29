@@ -25,7 +25,7 @@ public class Produit implements I_Produit {
 	@Override
 	public boolean enlever(int qteVendue) {
 		boolean retour = false;
-		if (quantiteStock > qteVendue) {
+		if (quantiteStock >= qteVendue) {
 			quantiteStock = quantiteStock - qteVendue;
 			retour = true;
 		}

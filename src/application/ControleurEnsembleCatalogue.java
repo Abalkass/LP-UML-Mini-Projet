@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import dao.DAOAbstraiteFactory;
-import dao.DAOFactory;
 import dao.I_DAO;
 import metier.Catalogue;
 import metier.I_Catalogue;

@@ -136,7 +136,7 @@ public class Catalogue implements I_Catalogue{
 		for(Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();){
 			I_Produit unProduit = i.next();
 			if((unProduit.getNom() == nomProduit)&&(qteVendue >0)){
-				if(unProduit.getQuantite() > qteVendue){
+				if(unProduit.getQuantite() >= qteVendue){
 					unProduit.enlever(qteVendue);
 					retour = true;
 				}
