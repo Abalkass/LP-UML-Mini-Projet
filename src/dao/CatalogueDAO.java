@@ -45,7 +45,7 @@ public class CatalogueDAO implements I_DAO<I_Catalogue> {
 	public boolean delete(I_Catalogue cat) {
 		String nomCat = cat.getNomCatalogue();
 		try {
-			PreparedStatement pst = connect.prepareStatement("DELETE FROM Produits WHERE nomProduit = ?");
+			PreparedStatement pst = connect.prepareStatement("DELETE FROM Catalogue WHERE nomCatalogue = ?");
 			pst.setString(1, nomCat);
 			pst.execute();
 			return true;
