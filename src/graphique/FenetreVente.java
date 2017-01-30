@@ -45,7 +45,7 @@ public class FenetreVente extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btVente){
-			ControleurAchatVente.venteProduit(this, combo, txtQuantite.getText());
+			ControleurAchatVente.venteProduit(this, (String) combo.getSelectedItem(), txtQuantite.getText());
 		}
 	}
 

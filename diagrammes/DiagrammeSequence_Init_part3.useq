@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.1.13" icons="true">  
+  <object id="1" language="java" name="graphique.FenetreAccueil" project="UML" 
+    file="/UML/src/graphique/FenetreAccueil.java" binary="false" label="fenetreAccueil" type="class" autoSize="false">    
+    <position height="620" width="186" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="72" width="110" x="5" y="76"/>    
+    </execution>    
+    <execution id="4">      
+      <position height="18" width="110" x="5" y="112"/>    
+    </execution>    
+    <execution id="5">      
+      <position height="396" width="110" x="5" y="207"/>    
+    </execution>    
+    <execution id="7">      
+      <position height="342" width="110" x="5" y="243"/>    
+    </execution>    
+    <execution id="9">      
+      <position height="18" width="0" x="0" y="288"/>    
+    </execution>    
+    <execution id="13">      
+      <position height="18" width="0" x="0" y="405"/>    
+    </execution>    
+    <execution id="17">      
+      <position height="18" width="0" x="0" y="522"/>    
+    </execution>  
+  </object>  
+  <object id="20" language="java" name="application.ControleurEnsembleCatalogue" project="UML" 
+    file="/UML/src/application/ControleurEnsembleCatalogue.java" binary="false" label="&lt;static&gt;" type="class" 
+    autoSize="false">    
+    <position height="584" width="425" x="186" y="0"/>    
+    <execution id="11">      
+      <position height="18" width="0" x="0" y="315"/>    
+    </execution>    
+    <execution id="15">      
+      <position height="18" width="0" x="0" y="432"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="18" width="0" x="0" y="549"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="FenetreAccueil()" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" operation="refreshFenetre():void" asynchronous="false">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="8" operation="modifierListesCatalogues(java.lang.String[]):void" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="getInstance():application.ControleurEnsembleCatalogue" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="12" operation="modifierDetailCatalogues(java.lang.String[]):void" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="13"/>  
+  </message>  
+  <message id="14" operation="getInstance():application.ControleurEnsembleCatalogue" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="16" operation="modifierNbCatalogues(int):void" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="18" operation="getInstance():application.ControleurEnsembleCatalogue" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>
+</sequence-diagram>
