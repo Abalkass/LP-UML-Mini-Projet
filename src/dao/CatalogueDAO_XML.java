@@ -11,15 +11,18 @@ import org.jdom.output.XMLOutputter;
 
 import metier.Catalogue;
 import metier.I_Catalogue;
+import metier.I_Produit;
 
 public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 	private String uri = "Catalogues.xml";
 	private Document doc;
+	private I_DAO<I_Produit> produitDAO;
 
 	public CatalogueDAO_XML() {
 		SAXBuilder sdoc = new SAXBuilder();
 		try {
 			doc = sdoc.build(uri);
+			produitDAO = new AdaptateurProduitDAO_XML();
 		} catch (Exception e) {
 			System.out.println("erreur construction arbre JDOM");
 		}
@@ -51,6 +54,11 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 			Element cat = chercheCatalogue(c.getNomCatalogue());
 			if (cat != null) {
 				root.removeContent(cat);
+				
+				List<I_Produit> lProd = produitDAO.findAll(c.getNomCatalogue());
+				for (I_Produit produit : lProd) {
+					produitDAO.delete(produit);
+				}
 				return sauvegarde();
 			} else
 				return false;
@@ -117,8 +125,8 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 
 	@Override
 	public int getNbTuples(String nomCat) {
-		Element root = doc.getRootElement();
-		return root.getChildren().size();
+		List<I_Produit> lProd = produitDAO.findAll(nomCat);
+		return lProd.size();
 	}
 
 }

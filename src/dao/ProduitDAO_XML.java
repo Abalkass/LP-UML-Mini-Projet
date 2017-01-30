@@ -47,7 +47,7 @@ public class ProduitDAO_XML {
 
 	public boolean maj(I_Produit p) {
 		try {
-			Element prod = chercheProduit(p.getNom());
+			Element prod = chercheProduit(p.getNom(), p.getCatalogue().getNomCatalogue());
 			if (prod != null) {
 				prod.getChild("quantite").setText(String.valueOf(p.getQuantite()));
 				return sauvegarde();
@@ -62,7 +62,7 @@ public class ProduitDAO_XML {
 	public boolean supprimer(I_Produit p) {
 		try {
 			Element root = doc.getRootElement();
-			Element prod = chercheProduit(p.getNom());
+			Element prod = chercheProduit(p.getNom(), p.getCatalogue().getNomCatalogue());
 			if (prod != null) {
 				root.removeContent(prod);
 				return sauvegarde();
@@ -74,41 +74,39 @@ public class ProduitDAO_XML {
 		}
 	}
 
-	public I_Produit lire(String nom) {
-		Element e = chercheProduit(nom);
-		Element cat = e.getChild("catalogue");
-
-			I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
-//			catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
-			return new Produit(e.getAttributeValue("nom"), Double.parseDouble(e.getChildText("prixHT")), Integer.parseInt(e.getChildText("quantite")), catalogue);
+	public I_Produit lire(String nom, String catalogue) {
+		Element e = chercheProduit(nom, catalogue);
+		if (e != null) {
+			String nomProduit = e.getAttributeValue("nom");
+			double prix = Double.parseDouble(e.getChildText("prixHT"));
+			int qteProduit = Integer.parseInt(e.getChildText("quantite"));
+			I_Catalogue cat = new Catalogue(e.getChildText("catalogue"));
+			return new Produit(nomProduit, prix, qteProduit, cat);
+		} else {
+			return null;
+		}
 
 	}
 
-	public List<I_Produit> lireTous(String nomObj) {
+	public List<I_Produit> lireTous(String nomCatalogue) {
 
 		List<I_Produit> l = new ArrayList<I_Produit>();
+		I_Catalogue catalogue = new Catalogue(nomCatalogue);
 		try {
 			Element root = doc.getRootElement();
-			@SuppressWarnings("unchecked")
 			List<Element> lProd = root.getChildren("produit");
-
+			
+			
+			
 			for (Element prod : lProd) {
-				//l.add(lire(prod.getAttributeValue("nom")));
-				Element cat = prod.getChild("catalogue");
-				String nomP = prod.getAttributeValue("nom");
-				Double prix = Double.parseDouble(prod.getChild("prixHT").getText());
-				int qte = Integer.parseInt(prod.getChild("quantite").getText());
-				I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
-//				catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
-//				if(catalogue.getIdCatalogue() == idCat){
-//					l.add(new Produit(nomP, prix, qte, catalogue));
-//				}
-				
+				if (prod.getChild("catalogue").getText().equals(nomCatalogue)){
+					String nomP = prod.getAttributeValue("nom");
+					Double prix = Double.parseDouble(prod.getChild("prixHT").getText());
+					int qte = Integer.parseInt(prod.getChild("quantite").getText());
+					l.add(new Produit(nomP, prix, qte, catalogue));
+				}
 			}
 		} catch (Exception e) {
-			System.out.println("Mess"+e.getMessage());
-			System.out.println("cause"+e.getCause());
-			System.out.println("stack"+e.getStackTrace());
 			System.out.println("erreur lireTous tous les produits");
 		}
 		return l;
@@ -126,12 +124,14 @@ public class ProduitDAO_XML {
 		}
 	}
 
-	private Element chercheProduit(String nom) {
+	private Element chercheProduit(String nom, String catalogue) {
 		Element root = doc.getRootElement();
 		@SuppressWarnings("unchecked")
 		List<Element> lProd = root.getChildren("produit");
 		int i = 0;
-		while (i < lProd.size() && !lProd.get(i).getAttributeValue("nom").equals(nom))
+		
+		while (i < lProd.size() && !lProd.get(i).getAttributeValue("nom").equals(nom) && 
+				lProd.get(i).getChild("catalogue").getText().equals(catalogue))
 			i++;
 		if (i < lProd.size())
 			return lProd.get(i);

@@ -23,7 +23,6 @@ public class AdaptateurProduitDAO_XML implements I_DAO<I_Produit> {
 		if((p.getQuantite() + p.getQuantite())<0){
 			throw (new QuantiteeStock_Exception("Pas assez de stock."));
 		}
-		p.ajouter(p.getQuantite());
 		return prod_XML.maj(p);
 	}
 
@@ -33,13 +32,13 @@ public class AdaptateurProduitDAO_XML implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public List<I_Produit> findAll(String nomObj) {
-		return prod_XML.lireTous(nomObj);
+	public List<I_Produit> findAll(String nomCatalogue) {
+		return prod_XML.lireTous(nomCatalogue);
 	}
 
 	@Override
 	public I_Produit findByAttribute(String colonne, Object valeur) {
-		return prod_XML.lire((String) valeur);
+		return null;
 	}
 
 	@Override
