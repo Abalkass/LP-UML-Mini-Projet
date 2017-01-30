@@ -46,7 +46,7 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btAchat){
-				ControleurAchatVente.achatProduit(this, combo, txtQuantite.getText());
+				ControleurAchatVente.achatProduit(this, (String)combo.getSelectedItem(), txtQuantite.getText());
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package application;
 
 import java.util.regex.Pattern;
 
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -33,8 +32,7 @@ public class ControleurAchatVente extends ControleurPrincipal {
 		return retour;
 	}
 
-	public static void achatProduit(JFrame laFrame, JComboBox<String> jcmb, String txtQte) {
-		String selectedProduit = (String) jcmb.getSelectedItem();
+	public static void achatProduit(JFrame laFrame, String selectedProduit, String txtQte) {
 		try {
 			if (testEntreeUtilisateur(txtQte) == true) {
 				int quantitee = Integer.parseInt(txtQte);
@@ -51,8 +49,7 @@ public class ControleurAchatVente extends ControleurPrincipal {
 		}
 	}
 
-	public static void venteProduit(JFrame laFrame, JComboBox<String> jcmb, String txtQte) {
-		String selectedProduit = (String) jcmb.getSelectedItem();
+	public static void venteProduit(JFrame laFrame, String selectedProduit, String txtQte) {
 		try {
 			if (testEntreeUtilisateur(txtQte) == true) {
 				int quantitee = Integer.parseInt(txtQte);
