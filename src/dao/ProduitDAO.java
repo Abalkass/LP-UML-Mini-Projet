@@ -49,7 +49,7 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 	@Override
 	public boolean update(I_Produit produitAMettreJour) throws QuantiteeStock_Exception {
 		String nomProduit = produitAMettreJour.getNom();
-		int idCatalogueProduit = produitAMettreJour.getCatalogue().getIdCatalogue();
+		String nomCatalogueProduit = produitAMettreJour.getCatalogue().getNomCatalogue();
 		int quantiteNouvelle = produitAMettreJour.getQuantite();
 		I_Produit p = findByAttribute("nomProduit", nomProduit);
 		
@@ -59,10 +59,10 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		
 		try {
 			PreparedStatement pst = connect.prepareStatement(
-					"UPDATE Produits SET quantiteStock = ?  WHERE nomProduit = ? AND idCatalogue = ?");
+					"UPDATE PRODUITS p SET quantiteStock = ? WHERE nomProduit = ? AND p.idCatalogue = (SELECT c.idCatalogue FROM Catalogue c WHERE nomCatalogue = ?)");
 			pst.setInt(1, quantiteNouvelle);
 			pst.setString(2, nomProduit);
-			pst.setInt(3, idCatalogueProduit);
+			pst.setString(3, nomCatalogueProduit);
 			pst.execute();
 			return true;
 
@@ -90,7 +90,7 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public List<I_Produit> findAll(Integer idCat) {
+	public List<I_Produit> findAll(String nomCatalogue) {
 		List<I_Produit> listProduits = new ArrayList<I_Produit>();
 		I_Produit p;
 		String nomProduit;
@@ -100,8 +100,8 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 
 		try {
 			PreparedStatement pst = connect.prepareStatement(
-					"SELECT nomProduit, quantiteStock, prixUnitaireHT, idCatalogue FROM Produits where idCatalogue = ?");
-			pst.setInt(1, idCat);
+					"SELECT nomProduit, quantiteStock, prixUnitaireHT, c.idCatalogue FROM Produits p JOIN Catalogue c ON p.idCatalogue = c.idCatalogue WHERE nomCatalogue = ?");
+			pst.setString(1, nomCatalogue);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				nomProduit = rs.getString(1);
@@ -146,19 +146,17 @@ public class ProduitDAO implements I_DAO<I_Produit> {
 		return null;
 	}
 
-	private I_Catalogue findCatalogue(int id) {
-		int idCatalogue;
+	private I_Catalogue findCatalogue(int idCatalogue) {
 		String nomCatalogue;
+		
 		try {
 			PreparedStatement pst = connect
-					.prepareStatement("SELECT idCatalogue, nomCatalogue FROM Catalogue WHERE idCatalogue = ?");
-			pst.setInt(1, id);
+					.prepareStatement("SELECT nomCatalogue FROM Catalogue WHERE idCatalogue = ?");
+			pst.setInt(1, idCatalogue);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				idCatalogue = rs.getInt(1);
-				nomCatalogue = rs.getString(2);
+				nomCatalogue = rs.getString(1);
 				I_Catalogue c = new Catalogue(nomCatalogue);
-				c.setIdCatalogue(idCatalogue);
 				return c;
 			}
 

@@ -2,6 +2,8 @@ package dao;
 
 import java.util.List;
 
+import metier.I_Produit;
+
 public interface I_DAO<T> {
 
 	/**
@@ -29,7 +31,7 @@ public interface I_DAO<T> {
 	 * @param id
 	 * @return une liste de T éléments contenu dans la BD
 	 */
-	public abstract List<T> findAll(Integer obj);
+	public abstract List<T> findAll(String nomObj);
 
 	/**
 	 * @param colonne, valeur

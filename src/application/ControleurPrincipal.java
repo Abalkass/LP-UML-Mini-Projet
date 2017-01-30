@@ -26,7 +26,7 @@ public class ControleurPrincipal {
 		//produitDao = DAOAbstraiteFactory.getInstance("XML").createProduitImplementantDAO();
 		
 
-		catalogue.addProduits(produitDao.findAll(catalogue.getIdCatalogue()));
+		catalogue.addProduits(produitDao.findAll(catalogue.getNomCatalogue()));
 		new FenetrePrincipale();
 	}
 	

@@ -77,12 +77,12 @@ public class ProduitDAO_XML {
 		Element cat = e.getChild("catalogue");
 
 			I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
-			catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
+//			catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
 			return new Produit(e.getAttributeValue("nom"), Double.parseDouble(e.getChildText("prixHT")), Integer.parseInt(e.getChildText("quantite")), catalogue);
 
 	}
 
-	public List<I_Produit> lireTous(Integer idCat) {
+	public List<I_Produit> lireTous(String nomObj) {
 
 		List<I_Produit> l = new ArrayList<I_Produit>();
 		try {
@@ -97,10 +97,10 @@ public class ProduitDAO_XML {
 				Double prix = Double.parseDouble(prod.getChild("prixHT").getText());
 				int qte = Integer.parseInt(prod.getChild("quantite").getText());
 				I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
-				catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
-				if(catalogue.getIdCatalogue() == idCat){
-					l.add(new Produit(nomP, prix, qte, catalogue));
-				}
+//				catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("idCatalogue")));
+//				if(catalogue.getIdCatalogue() == idCat){
+//					l.add(new Produit(nomP, prix, qte, catalogue));
+//				}
 				
 			}
 		} catch (Exception e) {

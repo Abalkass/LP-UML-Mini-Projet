@@ -9,45 +9,38 @@ import java.util.List;
 
 import metier.Produit;
 
-public class Catalogue implements I_Catalogue{
+public class Catalogue implements I_Catalogue {
 
 	private List<I_Produit> lesProduits;
-	private int idCatalogue;
 	private String nomCatalogue;
 
 	public Catalogue(String nom) {
 		this.nomCatalogue = nom;
 		lesProduits = new ArrayList<I_Produit>();
 	}
-	public int getIdCatalogue() {
-		return idCatalogue;
-	}
-	public void setIdCatalogue(int idCatalogue) {
-		this.idCatalogue = idCatalogue;
-	}
+
 	public String getNomCatalogue() {
 		return nomCatalogue;
 	}
+
 	public void setNomCatalogue(String nomCatalogue) {
 		this.nomCatalogue = nomCatalogue;
 	}
 
-
-
-	public List<I_Produit> getLesProduits(){
+	public List<I_Produit> getLesProduits() {
 		return lesProduits;
 	}
-	
+
 	public String toString() {
 		String chaineRetour = "";
 		DecimalFormat df = new DecimalFormat("#0.00");
-		
+
 		for (I_Produit p : lesProduits) {
 			chaineRetour += p.toString();
 		}
-		
-		chaineRetour += "\n" + "Montant total TTC du stock : " + df.format(this.getMontantTotalTTC()) +" €";
-		
+
+		chaineRetour += "\n" + "Montant total TTC du stock : " + df.format(this.getMontantTotalTTC()) + " €";
+
 		return chaineRetour;
 	}
 
@@ -55,23 +48,23 @@ public class Catalogue implements I_Catalogue{
 	public boolean addProduit(I_Produit produit) {
 		boolean estDansCatalogue = false;
 		boolean retour = false;
-		
+
 		for (Iterator<I_Produit> iterator = lesProduits.iterator(); iterator.hasNext();) {
 			Produit p = (Produit) iterator.next();
-			if( estDansCatalogue = (p.getNom().equals(produit.getNom().replace("	", " ").trim()) ) ){
+			if (estDansCatalogue = (p.getNom().equals(produit.getNom().replace("	", " ").trim()))) {
 				return false;
 			}
 		}
-		
+
 		if (!estDansCatalogue && produit != null) {
-			if((produit.getPrixUnitaireHT() != 0) && (produit.getQuantite() >= 0) && (produit.getPrixUnitaireHT() > 0)) {
+			if ((produit.getPrixUnitaireHT() != 0) && (produit.getQuantite() >= 0)
+					&& (produit.getPrixUnitaireHT() > 0)) {
 				this.lesProduits.add((Produit) produit);
 				retour = true;
 			}
 		}
 
-		
-			return retour;
+		return retour;
 	}
 
 	@Override
@@ -92,10 +85,11 @@ public class Catalogue implements I_Catalogue{
 		}
 		return nbProduitsAjoutes;
 	}
-	
+
 	/**
 	 * @param nom
-	 * @return le produit contenu dans le catalogue dont le nom est le même que celui dans le paramètre
+	 * @return le produit contenu dans le catalogue dont le nom est le même que
+	 *         celui dans le paramètre
 	 */
 	public I_Produit getProduitByNom(String nom) {
 		for (I_Produit p : this.lesProduits) {
@@ -105,6 +99,7 @@ public class Catalogue implements I_Catalogue{
 		}
 		return null;
 	}
+
 	@Override
 	public boolean removeProduit(String nom) {
 		I_Produit produitAsupprimer = this.getProduitByNom(nom);
@@ -118,10 +113,10 @@ public class Catalogue implements I_Catalogue{
 	@Override
 	public boolean acheterStock(String nomProduit, int qteAchetee) {
 		boolean retour = false;
-		if(qteAchetee>0){
-			for(Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();){
+		if (qteAchetee > 0) {
+			for (Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();) {
 				I_Produit unProduit = i.next();
-				if(unProduit.getNom() == nomProduit){
+				if (unProduit.getNom() == nomProduit) {
 					unProduit.ajouter(qteAchetee);
 					retour = true;
 				}
@@ -133,10 +128,10 @@ public class Catalogue implements I_Catalogue{
 	@Override
 	public boolean vendreStock(String nomProduit, int qteVendue) {
 		boolean retour = false;
-		for(Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();){
+		for (Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();) {
 			I_Produit unProduit = i.next();
-			if((unProduit.getNom() == nomProduit)&&(qteVendue >0)){
-				if(unProduit.getQuantite() >= qteVendue){
+			if ((unProduit.getNom() == nomProduit) && (qteVendue > 0)) {
+				if (unProduit.getQuantite() >= qteVendue) {
 					unProduit.enlever(qteVendue);
 					retour = true;
 				}
@@ -144,14 +139,14 @@ public class Catalogue implements I_Catalogue{
 		}
 		return retour;
 	}
-	
+
 	@Override
 	public String[] getNomProduits() {
 		String[] nomProduits = new String[0];
 		if (lesProduits != null) {
 			nomProduits = new String[lesProduits.size()];
 			int index = 0;
-			for(Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();){
+			for (Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();) {
 				I_Produit unProduit = i.next();
 				nomProduits[index] = unProduit.getNom();
 				index++;
@@ -164,11 +159,11 @@ public class Catalogue implements I_Catalogue{
 	@Override
 	public double getMontantTotalTTC() {
 		double total = 0;
-		for(Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();){
+		for (Iterator<I_Produit> i = lesProduits.iterator(); i.hasNext();) {
 			I_Produit unProduit = i.next();
 			total = total + unProduit.getPrixStockTTC();
 		}
-		
+
 		BigDecimal bd = new BigDecimal(total);
 		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 		total = bd.doubleValue();
@@ -179,6 +174,5 @@ public class Catalogue implements I_Catalogue{
 	public void clear() {
 		lesProduits = null;
 	}
-
 
 }

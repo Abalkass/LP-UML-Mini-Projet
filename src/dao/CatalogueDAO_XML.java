@@ -30,7 +30,7 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 		try {
 			Element root = doc.getRootElement();
 			Element catalogue = new Element("catalogue");
-			catalogue.setAttribute("idCatalogue", String.valueOf(cat.getIdCatalogue()));
+			//catalogue.setAttribute("idCatalogue", String.valueOf(cat.getIdCatalogue()));
 			Element nomCat = new Element("nomCatalogue");
 			catalogue.addContent(nomCat.setText(cat.getNomCatalogue()));
 			root.addContent(catalogue);
@@ -50,20 +50,21 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 	public boolean delete(I_Catalogue cat) {
 		try {
 			Element root = doc.getRootElement();
-			Element catalogue = chercheCatalogue(cat.getIdCatalogue());
+			Element catalogue = chercheCatalogue(cat.getNomCatalogue());
 			if (catalogue != null) {
 				root.removeContent(catalogue);
 				return sauvegarde();
 			} else
 				return false;
 		} catch (Exception e) {
+			System.out.println(e.getStackTrace());
 			System.out.println("erreur supprimer catalogue");
 			return false;
 		}
 	}
 
 	@Override
-	public List<I_Catalogue> findAll(Integer idCat) {
+	public List<I_Catalogue> findAll(String nomObj) {
 
 		List<I_Catalogue> l = new ArrayList<I_Catalogue>();
 		try {
@@ -73,7 +74,7 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 
 			for (Element cat : lCatalogue) {
 				I_Catalogue catalogue = new Catalogue(cat.getChildText("nomCatalogue"));
-				catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("id")));
+//				catalogue.setIdCatalogue(Integer.parseInt(cat.getAttributeValue("id")));
 				l.add(catalogue);
 			}
 		} catch (Exception e) {
@@ -94,12 +95,12 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 		}
 	}
 
-	private Element chercheCatalogue(int id) {
+	private Element chercheCatalogue(String string) {
 		Element root = doc.getRootElement();
 		@SuppressWarnings("unchecked")
 		List<Element> lCat = root.getChildren("catalogue");
 		int i = 0;
-		while (i < lCat.size() && !lCat.get(i).getAttributeValue("idCatalogue").equals(id))
+		while (i < lCat.size() && !lCat.get(i).getAttributeValue("idCatalogue").equals(string))
 			i++;
 		if (i < lCat.size())
 			return lCat.get(i);
@@ -109,9 +110,9 @@ public class CatalogueDAO_XML implements I_DAO<I_Catalogue> {
 
 	@Override
 	public I_Catalogue findByAttribute(String colonne, Object valeur) {
-		Element e = chercheCatalogue(Integer.parseInt((String) valeur));
+		Element e = chercheCatalogue((String) valeur);
 		I_Catalogue cat = new Catalogue(e.getChildText("nomCatalogue")); 
-		cat.setIdCatalogue(Integer.parseInt(String.valueOf(e.getAttribute("idCatalogue"))));
+//		cat.setIdCatalogue(Integer.parseInt(String.valueOf(e.getAttribute("idCatalogue"))));
 		return cat;
 	}
 
