@@ -19,12 +19,13 @@ public class ControleurPrincipal {
 	public ControleurPrincipal(I_Catalogue catalogueSelectionee){
 		catalogue = catalogueSelectionee;
 		
-		//Ligne à changer pour avoir la BDD relationnel
-			//produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
+//Ligne à changer pour avoir la BDD relationnel
+		produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
 		
-		//Ligne à changer pour avoir la BDD XML
-			produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
+//Ligne à changer pour avoir la BDD XML
+		//produitDao = DAOAbstraiteFactory.getInstance("XML").createProduitImplementantDAO();
 		
+
 		catalogue.addProduits(produitDao.findAll(catalogue.getIdCatalogue()));
 		new FenetrePrincipale();
 	}

@@ -5,4 +5,4 @@
 	<catalogue id="2">
 		<nomCatalogue>Friandise</nomCatalogue>
 	</catalogue>
-</listeCatalogues>
+<catalogue idCatalogue="0"><nomCatalogue>test</nomCatalogue></catalogue></listeCatalogues>

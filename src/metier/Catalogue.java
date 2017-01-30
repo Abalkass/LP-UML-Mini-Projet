@@ -11,7 +11,7 @@ import metier.Produit;
 
 public class Catalogue implements I_Catalogue{
 
-	private ArrayList<I_Produit> lesProduits;
+	private List<I_Produit> lesProduits;
 	private int idCatalogue;
 	private String nomCatalogue;
 
@@ -34,7 +34,7 @@ public class Catalogue implements I_Catalogue{
 
 
 
-	public ArrayList<I_Produit> getLesProduits(){
+	public List<I_Produit> getLesProduits(){
 		return lesProduits;
 	}
 	
