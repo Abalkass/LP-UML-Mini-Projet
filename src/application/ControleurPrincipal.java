@@ -23,7 +23,7 @@ public class ControleurPrincipal {
 		produitDao = DAOAbstraiteFactory.getInstance("BD").createProduitImplementantDAO();
 		
 //Ligne à changer pour avoir la BDD XML
-		//produitDao = DAOAbstraiteFactory.getInstance("XML").createProduitImplementantDAO();
+		produitDao = DAOAbstraiteFactory.getInstance("XML").createProduitImplementantDAO();
 		
 
 		catalogue.addProduits(produitDao.findAll(catalogue.getNomCatalogue()));

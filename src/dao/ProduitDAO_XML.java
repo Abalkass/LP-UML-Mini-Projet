@@ -35,6 +35,8 @@ public class ProduitDAO_XML {
 			prod.addContent(prix.setText(String.valueOf(p.getPrixUnitaireHT())));
 			Element qte = new Element("quantite");
 			prod.addContent(qte.setText(String.valueOf(p.getQuantite())));
+			Element catalogue = new Element("catalogue");
+			prod.addContent(catalogue.setText(p.getCatalogue().getNomCatalogue()));
 			root.addContent(prod);
 			return sauvegarde();
 		} catch (Exception e) {
