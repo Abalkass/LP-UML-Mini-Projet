@@ -33,8 +33,8 @@ public class AdaptateurProduitDAO_XML implements I_DAO<I_Produit> {
 	}
 
 	@Override
-	public List<I_Produit> findAll(Integer idCat) {
-		return prod_XML.lireTous(idCat);
+	public List<I_Produit> findAll(String nomObj) {
+		return prod_XML.lireTous(nomObj);
 	}
 
 	@Override

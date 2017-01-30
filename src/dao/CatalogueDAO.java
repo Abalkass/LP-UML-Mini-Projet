@@ -58,20 +58,17 @@ public class CatalogueDAO implements I_DAO<I_Catalogue> {
 	}
 
 	@Override
-	public List<I_Catalogue> findAll(Integer idCat) {
+	public List<I_Catalogue> findAll(String nomObj) {
 		List<I_Catalogue> listeCatalogue = new ArrayList<I_Catalogue>();
 		I_Catalogue catalogue;
-		int idCatalogue;
 		String nomCatalogue;
 		
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT idCatalogue, nomCatalogue FROM Catalogue");
+			PreparedStatement pst = connect.prepareStatement("SELECT nomCatalogue FROM Catalogue");
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
-				idCatalogue = rs.getInt(1);
-				nomCatalogue = rs.getString(2);
-				catalogue = new Catalogue(nomCatalogue); 
-				catalogue.setIdCatalogue(idCatalogue);
+				nomCatalogue = rs.getString(1);
+				catalogue = new Catalogue(nomCatalogue);
 				listeCatalogue.add(catalogue);
 			}
 			
@@ -85,17 +82,14 @@ public class CatalogueDAO implements I_DAO<I_Catalogue> {
 	@Override
 	public I_Catalogue findByAttribute(String colonne, Object valeur) {
 		String nomCatalogue;
-		int idCatalogue;
 		try {
-			PreparedStatement pst = connect.prepareStatement("SELECT idCatalogue, nomCatalogue FROM Produits WHERE ? = ?");
+			PreparedStatement pst = connect.prepareStatement("SELECT nomCatalogue FROM Produits WHERE "+ colonne +" = ?");
 			pst.setString(1, colonne);
 			pst.setObject(2, valeur);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				idCatalogue = rs.getInt(1);
-				nomCatalogue = rs.getString(2);
-				I_Catalogue c = new Catalogue(nomCatalogue); 
-				c.setIdCatalogue(idCatalogue);
+				nomCatalogue = rs.getString(1);
+				I_Catalogue c = new Catalogue(nomCatalogue);
 				return c;
 			}
 			
